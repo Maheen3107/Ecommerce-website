@@ -1,0 +1,82 @@
+﻿@model Final_Project.Models.Product.Product
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #343a40;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Add New Product</h2>
+        <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="Name" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="Name" name="Name" asp-for="Name" required>
+            </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Description</label>
+                <textarea class="form-control" id="Description" name="Description" asp-for="Description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="Price" class="form-label">Price</label>
+                <input type="number" class="form-control" id="Price" name="Price" asp-for="Price" step="0.01" required>
+            </div>
+            <div class="mb-3">
+                <label for="ImagePath" class="form-label">Image Path</label>
+                <input type="text" class="form-control" id="ImagePath" name="ImagePath" asp-for="ImagePath" required>
+            </div>
+            <div class="mb-3">
+                <label for="CategoryId" class="form-label">Category</label>
+                <select class="form-control" id="CategoryId" name="CategoryId" asp-for="CategoryId" required>
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

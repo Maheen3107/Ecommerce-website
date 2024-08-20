@@ -1,0 +1,107 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Light text color for contrast against dark background */
+    background-color: #2F1B0F; /* Brownish-black-grey background color */
+    margin: 0;
+    padding: 0;
+}
+
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #3B3A3C; /* Dark grey background for container */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between product items */
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    background: #2C2B2C; /* Dark background for product details */
+    border-radius: 8px;
+    padding: 20px;
+    margin: 0;
+    color: #fff; /* Light text color within product card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.product-image img {
+    width: 300px; /* Adjust size for better fit */
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.product-details {
+    flex: 1;
+    margin-left: 20px;
+}
+
+    .product-details h2 {
+        font-size: 24px; /* Adjusted size for balance */
+        margin-bottom: 10px;
+    }
+
+    .product-details p {
+        font-size: 14px; /* Slightly smaller for better readability */
+        margin-bottom: 10px;
+        color: #b5b5b5; /* Softer text color for product description */
+    }
+
+.price {
+    font-size: 20px; /* Adjusted for balance */
+    font-weight: bold;
+    color: #e74c3c; /* Highlight the price in red */
+    margin-bottom: 20px;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity-button {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    height: 30px;
+    background-color: #fff; /* Ensure visibility */
+    color: #000; /* Dark text for readability */
+}
+
+.add-to-cart {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+    .add-to-cart:hover {
+        background-color: #333;
+    }
+
+.sku, .category {
+    color: #b5b5b5; /* Softer text color */
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+    .sku span, .category span {
+        font-weight: bold;
+    }

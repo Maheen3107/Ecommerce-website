@@ -1,0 +1,203 @@
+﻿@model IEnumerable<Final_Project.Models.Product.Product>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="@Url.Content("~/css/CategoryStyle.css")">
+    <title>All Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #2F1B0F;
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #3B3A3C;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            background: #2C2B2C;
+            border-radius: 8px;
+            padding: 20px;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .product-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+            .product-details h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .product-details p {
+                font-size: 14px;
+                margin-bottom: 10px;
+                color: #b5b5b5;
+            }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-button {
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ccc;
+            height: 30px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .add-to-cart {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+            .add-to-cart:hover {
+                background-color: #333;
+            }
+
+        .sku, .category {
+            color: #b5b5b5;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+            .sku span, .category span {
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var product in Model)
+            {
+                <div class="product">
+                    <div class="product-image">
+                        <img src="@Url.Content(product.ImagePath)" alt="@product.Name" />
+                    </div>
+                    <div class="product-details">
+                        <h2>@product.Name</h2>
+                        <p>@product.Description</p>
+                        <p class="price">@product.Price.ToString("C")</p>
+                        <div class="quantity-container">
+                            <!-- Quantity controls with data attributes for JavaScript -->
+                            <button class="quantity-button" data-action="decrease" data-product-id="@product.Id">-</button>
+                            <input type="text" class="quantity-input" value="1" readonly data-product-id="@product.Id" />
+                            <button class="quantity-button" data-action="increase" data-product-id="@product.Id">+</button>
+                        </div>
+                        <button class="add-to-cart" data-product-id="@product.Id">Add to Cart</button>
+                        <p class="sku"><span>SKU:</span> @product.Id</p>
+                        <p class="category"><span>Category:</span> @product.CategoryId</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No products found.</p>
+        }
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle quantity change
+            document.querySelectorAll('.quantity-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const action = this.getAttribute('data-action');
+                    const productId = this.getAttribute('data-product-id');
+                    const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+                    let quantity = parseInt(quantityInput.value);
+
+                    if (action === 'increase') {
+                        quantity++;
+                    } else if (action === 'decrease' && quantity > 1) {
+                        quantity--;
+                    }
+
+                    quantityInput.value = quantity;
+                });
+            });
+
+            // Handle add to cart
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+                    const quantity = parseInt(quantityInput.value);
+
+                    // Simulate adding to cart (You can replace this with an actual AJAX request to add the item to the cart)
+                    alert(`Product ID ${productId} added to cart with quantity ${quantity}`);
+
+                    // Optionally, you can send the data to your server here
+                    // Example using fetch:
+                    // fetch('/cart/add', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify({ productId, quantity })
+                    // })
+                    // .then(response => response.json())
+                    // .then(data => console.log(data))
+                    // .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

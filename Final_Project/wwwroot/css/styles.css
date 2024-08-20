@@ -1,0 +1,301 @@
+﻿/* General Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    overflow: auto; /* Allow scrolling */
+}
+@font-face {
+    font-family: 'Charmelade DEMO Regular';
+    src: url('../fonts/charmelade-demo-regular.woff2') format('woff2'), url('../fonts/charmelade-demo-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.image-background {
+    background-image: url('../media/images/cover.jpg');
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 100vh; /* Sets the height to 100% of the viewport height */
+    width: 100vw; /* Ensures the width covers 100% of the viewport width */
+    position: relative;
+}
+
+.image-background {
+    background-image: url('../media/images/cover.jpg');
+    background-size: cover;
+    background-position: top center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.moving-text {
+    position: relative;
+    z-index: 1; /* Ensure text is above the background */
+    font-family: 'Organical', cursive; /* Apply Organical font */
+    font-size: 100px; /* Large text size */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), #bfae91); /* Gradient from white to brownish */
+    -webkit-background-clip: text; /* Clip the background to the text */
+    -webkit-text-fill-color: transparent; /* Make the text fill color transparent */
+    text-shadow: 2px 2px 4px rgba(61, 42, 31, 0.4); /* Subtle brownish text shadow */
+    animation: bounce 2s infinite; /* Bounce animation */
+    text-align: left; /* Align text to the left */
+    white-space: nowrap; /* Prevent text wrapping */
+    left: 50px; /* Move the text slightly away from the left edge */
+}
+
+    .moving-text h1 {
+        font-size: 200px;
+        margin-bottom: 10px;
+    }
+
+    .moving-text h3 {
+        font-size: 100px;
+    }
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+
+/* Sliding Background Images */
+body.login-page, body.signin-page, body.forgot-password-page, body.reset-password-page {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    animation: slideBackground 12s infinite;
+    z-index: -1;
+}
+
+@keyframes slideBackground {
+    0% {
+        background-image: url('../media/images/image1.jpg');
+       
+    }
+
+    15% {
+        background-image: url('../media/images/pexels-daiangan-102129.jpg');
+    }
+
+    33% {
+        background-image: url('../media/images/image3.jpg');
+    }
+
+    56% {
+        background-image: url('../media/images/pexels-mart-production-7679682.jpg');
+    }
+
+    81% {
+        background-image: url('../media/images/image4.jpg');
+    }
+
+    100% {
+        background-image: url('../media/images/pexels-mart-production-7679863.jpg');
+    }
+}
+
+/* Blur Box for Login/Sign-in/Forgot Password/Reset Password */
+.login-container, .signin-container, .forgot-password-container, .reset-password-container {
+    position: relative;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    margin: auto;
+    margin-top: 5%;
+    overflow: auto; /* Allow scrolling inside the container */
+}
+
+/* Form Inputs */
+.input-group {
+    margin-bottom: 15px;
+}
+
+    .input-group label {
+        display: block;
+        color: #fff;
+        margin-bottom: 5px;
+        text-align: left;
+    }
+
+    .input-group input {
+        width: 90%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 16px;
+    }
+
+/* Button */
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn:hover {
+        background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    }
+
+/* Link to Switch Between Forms */
+.switch-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+    .switch-link:hover {
+        text-decoration: underline;
+    }
+
+/* Content Overlay */
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Header */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Error Message Styles */
+.text-danger {
+    color: #fff;
+    font-size: 0.875em;
+    margin-top: 5px;
+}
+
+/* General mobile styles */
+@media only screen and (max-width: 767px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+        .signin-container h2, .forgot-password-container h2, .reset-password-container h2 {
+            font-size: 1.5rem;
+        }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 12px;
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+    }
+
+    .switch-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* iPhone SE */
+@media only screen and (max-width: 375px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        padding: 15px;
+    }
+
+        .signin-container h2, .forgot-password-container h2, .reset-password-container h2 {
+            font-size: 1.3rem;
+        }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+}
+
+/* iPhone XR and iPhone 12 Pro */
+@media only screen and (min-width: 376px) and (max-width: 414px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 85%;
+        padding: 20px;
+    }
+
+    .btn {
+        font-size: 1rem;
+    }
+}
+
+/* iPhone 14 Pro Max */
+@media only screen and (min-width: 430px) and (max-width: 460px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 80%;
+        padding: 25px;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+    }
+}
+
+/* Pixel 7 */
+@media only screen and (min-width: 412px) and (max-width: 432px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 85%;
+        padding: 20px;
+    }
+}
+
+/* Samsung Galaxy S8+ */
+@media only screen and (min-width: 360px) and (max-width: 384px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 88%;
+        padding: 20px;
+    }
+}
+
+/* Samsung Galaxy S20 Ultra */
+@media only screen and (min-width: 412px) and (max-width: 454px) {
+    .signin-container, .forgot-password-container, .reset-password-container {
+        width: 85%;
+        padding: 20px;
+    }
+}

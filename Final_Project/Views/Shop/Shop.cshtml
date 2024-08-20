@@ -1,0 +1,161 @@
+﻿@{
+    Layout = null; // Make sure this matches your layout setup
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estelle Shop</title>
+    <link rel="stylesheet" href="@Url.Content("~/css/ShopStyle.css")">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Galaxy</div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li class="dropdown">
+                    <a href="#">Shop</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 1 })">Winter Coat</a></li>
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 2 })">Summer</a></li>
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 3 })">Heels</a></li>
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 4 })">Bags</a></li>
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 5 })">New Arrival</a></li>
+                        <li><a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 6 })">Perfumes</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.Action("About_Us", "Category")">About Us</a></li>
+                <li><a href="/elements.html">User Profile</a></li>
+                <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-icons">
+            <!-- Search icon -->
+            <form id="searchForm" onsubmit="return searchProducts()">
+                <input type="text" id="searchInput" placeholder="Search for categories..." />
+                <button type="submit" class="search-icon">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- Cart icon -->
+            <a href="#" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <!-- Menu icon -->
+            <a href="#" class="menu-icon">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Shop</h1>
+            <p>Browse our lovely new collection</p>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="category-grid">
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 1 })">
+                    <img src="@Url.Content("~/media/images/Winter_coats.jpg")" alt="Winter Coats">
+                    <span>Winter Coats</span>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 3 })">
+                    <img src="@Url.Content("~/media/images/Heels.jpg")" alt="Heels">
+                    <span>Heels</span>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 4 })">
+                    <img src="@Url.Content("~/media/images/bags.jpg")" alt="Bags">
+                    <span>Bags</span>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 6 })">
+                    <img src="@Url.Content("~/media/images/serum.jpg")" alt="Perfumes">
+                    <span>Perfumes</span>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 2 })">
+                    <img src="@Url.Content("~/media/images/summer.jpg")" alt="Summer">
+                    <span>Summer</span>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="@Url.Action("CategoryProducts", "Category", new { categoryId = 5 })">
+                    <img src="@Url.Content("~/media/images/new.jpg")" alt="New Arrival">
+                    <span>New Arrival</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Left Column: Contact Info -->
+            <div class="footer-column">
+                <h3>GALAXY</h3>
+                <p>Heinstrasse 267c / Zurich</p>
+                <p>Email: galaxy@gmail.com</p>
+                <p>Phone: +92 101 0000 000</p>
+                <p>&copy; 2024 Your Company, All Rights Reserved</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-youtube"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Middle Column: Useful Links -->
+            <div class="footer-column">
+                <h3>Q&A - USEFUL LINKS</h3>
+                <ul>
+                    <li><a href="#">What is Lorem Ipsum?</a></li>
+                    <li><a href="#">Why do we use it?</a></li>
+                    <li><a href="#">Where can I get some?</a></li>
+                    <li><a href="#">What are its uses?</a></li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Latest Post -->
+            <div class="footer-column">
+                <h3>LATEST POST</h3>
+                <ul>
+                    <li>
+                        <a href="#">Retro Style</a><br>
+                        <span>April 16, 2024 - by Joan Clare</span>
+                    </li>
+                    <li>
+                        <a href="#">Fashion Moments</a><br>
+                        <span>April 16, 2024 - by Joan Clare</span>
+                    </li>
+                    <li>
+                        <a href="#">Fabulous Night Look</a><br>
+                        <span>April 16, 2024 - by Joan Clare</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

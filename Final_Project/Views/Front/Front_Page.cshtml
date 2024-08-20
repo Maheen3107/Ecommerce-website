@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Final_Project.Models.Product.Product>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy</title>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/css/styles.css")">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="image-background">
+        <div class="moving-text">
+            <h1>Galaxy</h1>
+            <h3>Style your own way</h3>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to redirect to login page after 5 seconds
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Shop", "Shop")';
+        }, 5000);
+    </script>
+</body>
+</html>

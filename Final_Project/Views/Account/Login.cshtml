@@ -1,0 +1,45 @@
+﻿@model Final_Project.Models.User.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="@Url.Content("~/css/styles.css")">
+</head>
+<body class="login-page">
+    <div class="overlay"></div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form asp-action="Login" method="post">
+            <div class="input-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                @if (ViewData["InvalidLogin"] != null)
+                {
+                    <span class="text-danger">@ViewData["InvalidLogin"]</span>
+                }
+            </div>
+            <div class="form-group">
+                <span asp-validation-summary="ModelOnly" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <a href="@Url.Action("Signin", "Account")" class="switch-link">Don't have an account? Sign in</a>
+        <a href="@Url.Action("ForgotPassword", "Account")" class="forgot-password-link">Forgot Password?</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
