@@ -12,7 +12,8 @@ namespace Final_Project
             // Register IUserRepository with its implementation
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            // Add session services
+
+             // Add session services
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout

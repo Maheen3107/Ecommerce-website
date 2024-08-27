@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Final_Project.Models.Product.Product>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +118,31 @@
             .sku span, .category span {
                 font-weight: bold;
             }
+        /* Style for the form */
+
+
+            /* Style for the button */
+            .cart-form .btn-primary {
+                background-color: #343a40; /* Dark grey background */
+                border-color: #343a40; /* Matching border color */
+                color: white; /* White text color */
+                border-radius: 4px; /* Optional: rounded corners */
+                padding: 10px 20px; /* Adjust padding as needed */
+                font-size: 16px; /* Adjust font size as needed */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .cart-form .btn-primary i {
+                    margin-right: 5px; /* Space between icon and text */
+                }
+
+                .cart-form .btn-primary:hover {
+                    background-color: #495057; /* Slightly lighter grey on hover */
+                    border-color: #495057; /* Matching border color */
+                }
+
     </style>
 </head>
 <body>
@@ -140,8 +165,17 @@
                             <input type="text" class="quantity-input" value="1" readonly data-product-id="@product.Id" />
                             <button class="quantity-button" data-action="increase" data-product-id="@product.Id">+</button>
                         </div>
-                        <button class="add-to-cart" data-product-id="@product.Id">Add to Cart</button>
-                        <p class="sku"><span>SKU:</span> @product.Id</p>
+                        <form action="/Cart/AddToCart" method="post" class="cart-form">
+                            <input type="hidden" name="ProductId" value="@product.Id" />
+                            <input type="hidden" name="ProductName" value="@product.Name" />
+                            <input type="hidden" name="ImageUrl" value="@product.ImagePath" />
+                            <input type="hidden" name="Price" value="@product.Price" />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                            </button>
+                        </form>
+
+                         <p class="sku"><span>SKU:</span> @product.Id</p>
                         <p class="category"><span>Category:</span> @product.CategoryId</p>
                     </div>
                 </div>
@@ -197,6 +231,36 @@
                 });
             });
         });
+
+    
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get all filter buttons and food items
+                const filterButtons = document.querySelectorAll('.filters_menu li');
+                const items = document.querySelectorAll('.filters-content .grid .col-sm-6');
+
+                // Add click event listeners to filter buttons
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const filter = button.getAttribute('data-filter');
+
+                        // Remove 'active' class from all buttons
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // Add 'active' class to the clicked button
+                        button.classList.add('active');
+
+                        // Filter items
+                        items.forEach(item => {
+                            if (filter === '*' || item.classList.contains(filter.slice(1))) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            });
+
+
     </script>
 
 </body>

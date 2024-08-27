@@ -57,7 +57,7 @@
             }
         }
 
-        public User GetUserByEmailAndPassword(string email, string hashedPassword)
+        public User GetUserByEmailAndPassword(string email, string password)
         {
             User user = null;
 
@@ -66,11 +66,11 @@
                 using (SqlConnection connect = new SqlConnection(_connectionString))
                 {
                     connect.Open();
-                    string query = "SELECT * FROM Users WHERE Email=@Email AND Password=@Password";
+                    string query = "SELECT Id, Name, Email, Password, Address, PhoneNumber, City, State, PostalCode, Country FROM Users WHERE Email=@Email AND Password=@Password";
                     using (SqlCommand cmd = new SqlCommand(query, connect))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
-                        cmd.Parameters.AddWithValue("@Password", hashedPassword); // Ensure hashed password
+                        cmd.Parameters.AddWithValue("@Password", password); // Plain text password
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -80,7 +80,7 @@
                                 {
                                     user = new User
                                     {
-                                        Id = reader.GetInt32(0),
+                                        Id = reader.GetInt32(0), // Ensure these indexes are correct
                                         Name = reader.GetString(1),
                                         Email = reader.GetString(2),
                                         Password = reader.GetString(3),
@@ -99,6 +99,7 @@
             }
             catch (Exception ex)
             {
+                // Log or handle the exception
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
 

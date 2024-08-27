@@ -167,6 +167,7 @@ body {
 
 /* Hero section styles */
 .hero {
+    
     background-image: url('../media/images/cover2.jpg');
     background-repeat: no-repeat;
     background-position: top center; /* Aligns the image to the top */

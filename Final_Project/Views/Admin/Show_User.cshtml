@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<Final_Project.Models.User.User>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,41 +15,52 @@
     <!-- Custom CSS -->
     <style>
         body {
-            background-color: #f4f6f9;
+            background-color: #562424;
             font-family: 'Arial', sans-serif;
+            color: whitesmoke;
         }
 
         .container {
-            background-color: #ffffff;
+            color:whitesmoke;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #562424;
         }
 
         h1 {
             font-size: 2rem;
             color: #343a40;
-            border-bottom: 2px solid #007bff;
+            border-bottom: 2px solid white;
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
+            color:whitesmoke;
+           
         }
 
-        .table th {
-            background-color: #007bff;
-            color: #ffffff;
+        .user-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            color: dimgrey;
         }
 
-        .table-striped tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+            .user-card h5 {
+                font-size: 1.25rem;
+                color: #343a40;
+                margin-bottom: 1rem;
+            }
 
-        .table td {
-            vertical-align: middle;
-            text-align: center;
-        }
+            .user-card p {
+                margin: 0.5rem 0;
+                color: dimgrey;
+            }
 
         .btn-back {
-            background-color: #007bff;
+            background-color: dimgrey;
             color: #ffffff;
             border: none;
             padding: 0.5rem 1rem;
@@ -63,31 +79,29 @@
     <div class="container mt-4">
         <h1 class="mb-4">User Details</h1>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>City</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.Users)
+        @if (Model != null && Model.Any())
+        {
+            <div class="row">
+                @foreach (var user in Model)
                 {
-                    <tr>
-                        <td>@user.Name</td>
-                        <td>@user.Email</td>
-                        <td>@user.Address</td>
-                        <td>@user.PhoneNumber</td>
-                        <td>@user.City</td>
-                    </tr>
+                    <div class="col-md-4">
+                        <div class="user-card">
+                            <h5>@user.Name</h5>
+                            <p><strong>Email:</strong> @user.Email</p>
+                            <p><strong>Address:</strong> @user.Address, @user.City, @user.State, @user.Country</p>
+                            <p><strong>Phone Number:</strong> @user.PhoneNumber</p>
+                            <p><strong>Postal Code:</strong> @user.PostalCode</p>
+                        </div>
+                    </div>
                 }
-            </tbody>
-        </table>
+            </div>
+        }
+        else
+        {
+            <p>No user data available.</p>
+        }
 
-        <a href="/admin" class="btn-back mt-4">Back to Admin Dashboard</a>
+        <a href="@Url.Action("Admin_Index", "Admin")" class="btn-back mt-4">Back to Admin Dashboard</a>
     </div>
 
     <!-- Bootstrap JS (Optional) -->
@@ -95,4 +109,3 @@
 </body>
 
 </html>
-

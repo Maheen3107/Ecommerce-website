@@ -1,19 +1,103 @@
-﻿<!DOCTYPE html>
+﻿@using Final_Project.Models.Cart;
+@model List<CartItem>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Project</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="@Url.Content("~/css/ShopStyle.css")">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Project.styles.css" asp-append-version="true" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <style>
+        body {
+            background: linear-gradient(120deg, #2A0001, WHITE);
+            color: #444;
+            font-family: 'Arial', sans-serif;
+        }
 
-        /* Header styles */
+        .cart-section .card {
+            background: #fff;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-section .card-header {
+            background-color: dimgrey;
+            color: #fff;
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .cart-section .table {
+            margin-bottom: 0;
+            border-radius: 0 0 15px 15px;
+            overflow: hidden;
+        }
+
+            .cart-section .table th,
+            .cart-section .table td {
+                padding: 15px;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .cart-section .table th {
+                background-color: #f8f9fa;
+            }
+
+            .cart-section .table td {
+                border-bottom: 1px solid #eee;
+            }
+
+        .cart-section .btn-primary,
+        .cart-section .btn-danger {
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+
+        .cart-section .btn-primary {
+            background-color: lightslategrey;
+            border: none;
+        }
+
+        .cart-section .btn-danger {
+            background-color: #c0392b;
+            border: none;
+        }
+
+        .cart-section .total-row td {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2A0001;
+        }
+
+        .cart-section .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: #999;
+            padding: 50px 0;
+        }
+
+        .cart-section .proceed-btn {
+            text-align: right;
+            padding: 20px;
+        }
+
+        .cart-section .btn-success {
+            background-color: #27ae60;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -187,9 +271,7 @@
         }
     </style>
 </head>
-
 <body>
-
     <header class="header">
         <div class="logo">Galaxy</div>
         <nav class="navbar">
@@ -213,13 +295,13 @@
         </nav>
 
         <div class="header-icons">
-            <!-- Search icon
+            <!-- Search icon -->
             <form id="searchForm" onsubmit="return searchProducts()">
                 <input type="text" id="searchInput" placeholder="Search for categories..." />
                 <button type="submit" class="search-icon">
                     <i class="fas fa-search"></i>
                 </button>
-            </form> -->
+            </form>
 
             <!-- Cart icon -->
             <a href="@Url.Action("Cart", "Cart")" class="cart-icon">
@@ -231,111 +313,77 @@
             </a>
         </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <!-- Footer -->
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <!-- Left Column: Contact Info -->
-            <div class="footer-column">
-                <h3>GALAXY</h3>
-                <p>Heinstrasse 267c / Zurich</p>
-                <p>Email: galaxy@gmail.com</p>
-                <p>Phone: +92 101 0000 000</p>
-                <p>&copy; 2024 Your Company, All Rights Reserved</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-youtube"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
+    <div class="container cart-section">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-shopping-cart"></i> Your Cart
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.ImageUrl " alt="@item.ProductName" class="img-thumbnail" style="width: 100px; height: auto;" />
+                                    </td>
+                                    <td>@item.ProductName</td>
+                                    <td>
+                                        <form action="/Cart/UpdateCart" method="post" class="d-inline">
+                                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                            <input type="number" name="Quantity" value="@item.Quantity" min="1" class="form-control d-inline-block w-auto" />
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </form>
+                                    </td>
+                                    <td>@item.Price.ToString("C")</td>
+                                    <td>$@(item.Price * item.Quantity)</td>
+                                    <td>
+                                        <form action="/Cart/RemoveFromCart" method="post" class="d-inline">
+                                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                            <button type="submit" class="btn btn-danger">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+
+
+                            <!-- Total Row -->
+                            <tr class="total-row">
+                                <td colspan="3"></td>
+                                <td>Total:</td>
+                                <td>@Model.Sum(item => item.Price * item.Quantity).ToString("C")</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="empty-cart">Your cart is empty.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (Model != null && Model.Count > 0)
+            {
+                <div class="proceed-btn">
+                    <a href="/Checkout" class="btn btn-success"><i class="fas fa-credit-card"></i> Proceed to Checkout</a>
                 </div>
-            </div>
-
-            <!-- Middle Column: Useful Links -->
-            <div class="footer-column">
-                <h3>Q&A - USEFUL LINKS</h3>
-                <ul>
-                    <li><a href="#">What is Lorem Ipsum?</a></li>
-                    <li><a href="#">Why do we use it?</a></li>
-                    <li><a href="#">Where can I get some?</a></li>
-                    <li><a href="#">What are its uses?</a></li>
-                </ul>
-            </div>
-
-            <!-- Right Column: Latest Post -->
-            <div class="footer-column">
-                <h3>LATEST POST</h3>
-                <ul>
-                    <li>
-                        <a href="#">Retro Style</a><br>
-                        <span>April 16, 2024 - by Joan Clare</span>
-                    </li>
-                    <li>
-                        <a href="#">Fashion Moments</a><br>
-                        <span>April 16, 2024 - by Joan Clare</span>
-                    </li>
-                    <li>
-                        <a href="#">Fabulous Night Look</a><br>
-                        <span>April 16, 2024 - by Joan Clare</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-    <section id="searchResults">
-        <div id="resultsContainer"></div>
-    </section>
-
-    <script src="https://example.com/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://example.com/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://example.com/js/site.js"></script>
-
-    <script>
-        const categories = [
-            { name: "Winter Coats", url: "/WinterCoats" },
-            { name: "Heels", url: "/Heels" },
-            { name: "Bags", url: "/Bags" },
-            { name: "Perfumes", url: "/Perfumes" },
-            { name: "Summer", url: "/Summer" },
-            { name: "New Arrival", url: "/NewArrival" }
-        ];
-
-        function searchProducts() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const filteredCategories = categories.filter(category =>
-                category.name.toLowerCase().includes(query)
-            );
-
-            displaySearchResults(filteredCategories);
-            return false; // Prevent form submission
-        }
-
-        function displaySearchResults(results) {
-            const resultsContainer = document.getElementById("resultsContainer");
-            resultsContainer.innerHTML = "";
-
-            if (results.length === 0) {
-                resultsContainer.innerHTML = "<p>No categories found.</p>";
-            } else {
-                results.forEach(result => {
-                    const resultElement = document.createElement("div");
-                    resultElement.innerHTML = `<a href="${result.url}">${result.name}</a>`;
-                    resultsContainer.appendChild(resultElement);
-                });
             }
-        }
-    </script>
+        </div>
+    </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

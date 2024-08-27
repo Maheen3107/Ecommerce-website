@@ -1,6 +1,7 @@
 ﻿using Final_Project.Models.User;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Http; 
+using Newtonsoft.Json;
 namespace Final_Project.Controllers
 {
     public class AccountController : Controller
@@ -29,30 +30,48 @@ namespace Final_Project.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Retrieve the user based on email and password
                 var user = _userRepository.GetUserByEmailAndPassword(model.Email, model.Password);
 
+                // Check if the user exists
                 if (user == null)
                 {
                     ViewData["InvalidLogin"] = "Invalid email or password.";
+                    return View(model);
+                }
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
+
+                // Check if the user is an admin
+                if (user.Email.Equals("admin12@gmail.com", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Set cookie for admin
+                    Response.Cookies.Append("Email", user.Email, new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddHours(1), // Adjust the expiry as needed
+                        HttpOnly = true,
+                        Secure = true // Set to true if using HTTPS
+                    });
+
+                    return RedirectToAction("Admin_Index", "Admin");
                 }
                 else
                 {
-                    var cookieOptions = new CookieOptions
+                    // Set cookie for non-admin user
+                    Response.Cookies.Append("Email", user.Email, new CookieOptions
                     {
-                        Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                        Expires = DateTimeOffset.UtcNow.AddHours(1), // Adjust the expiry as needed
                         HttpOnly = true,
-                        Secure = HttpContext.Request.IsHttps
-                    };
-                    Response.Cookies.Append("Email", model.Email, cookieOptions);
-
-                    HttpContext.Session.SetString("Email", user.Email);
+                        Secure = true // Set to true if using HTTPS
+                    });
 
                     return RedirectToAction("Shop", "Shop");
                 }
             }
 
+            // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Signin()

@@ -1,0 +1,294 @@
+﻿@model Final_Project.Models.User.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Style for the circular image layout */
+        .profile-section .img-thumbnail {
+            width: 200px; /* Adjusted size to match your code */
+            height: 200px; /* Adjusted size to match your code */
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .profile-section .img-thumbnail:hover {
+                transform: scale(1.05);
+            }
+
+        .file-input-wrapper {
+            position: relative;
+            width: 200px; /* Adjusted size to match the image */
+            height: 200px; /* Adjusted size to match the image */
+            margin: auto;
+        }
+
+            .file-input-wrapper input[type="file"] {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #562424;
+            color: floralwhite;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .side-nav {
+            background-color: #343a48;
+            color: floralwhite;
+            width: 250px;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+        }
+
+            .side-nav .nav-link {
+                color: #ddd;
+                margin: 15px 0;
+                padding: 10px;
+                text-decoration: none;
+                display: block;
+                border-radius: 4px;
+            }
+
+                .side-nav .nav-link:hover {
+                    background-color: #495057;
+                    color: #fff;
+                }
+
+                .side-nav .nav-link.active {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .profile-section .card {
+            background-color: #562424;
+            border: none;
+        }
+
+        .profile-section .card-body {
+            padding: 20px;
+        }
+
+        .profile-section .btn-primary {
+            background-color: dimgrey;
+            border-color: black;
+        }
+
+            .profile-section .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
+        .info-box {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: black;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            background-color: floralwhite;
+            color: ghostwhite;
+        }
+
+        #lineChart {
+            width: 80% !important;
+            height: 300px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Side Navigation -->
+        <div class="side-nav">
+            <h4>Dashboard</h4>
+            <a href="#" class="nav-link active"><i class="fas fa-user-circle"></i> Profile</a>
+            <a href="@Url.Action("Add_Product", "Admin")" class="nav-link"><i class="fas fa-box-open"></i> Add Product</a>
+            <a href="@Url.Action("Show_User", "Admin")" class="nav-link"><i class="fas fa-users"></i> View Users</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="container">
+                <div class="row">
+                    <!-- User Info Section -->
+                    <div class="col-md-4 profile-section mb-4">
+                        <div class="card shadow-lg">
+                            <div class="card-body text-center">
+                                <!-- Circular Image with File Input -->
+                                <div class="file-input-wrapper">
+                                    <img id="profileImage" src="../media/images/admin.jpg" alt="User" class="img-thumbnail">
+                                    <input type="file" id="fileUpload" accept="image/*" onchange="previewImage(event)">
+                                </div>
+                                <h4 class="card-title mt-3">@Model.Name</h4>
+                                <hr>
+                                <div class="info-box">
+                                    <p><strong>Name:</strong> @Model.Name</p>
+                                </div>
+                                <div class="info-box">
+                                    <p><strong>Email:</strong> @Model.Email</p>
+                                </div>
+                                <div class="info-box">
+                                    <p><strong>Address:</strong> @Model.Address, @Model.City, @Model.State, @Model.Country</p>
+                                </div>
+                                <div class="info-box">
+                                    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                                </div>
+                                <div class="info-box">
+                                    <p><strong>Postal Code:</strong> @Model.PostalCode</p>
+                                </div>
+                                <!-- File Upload Form -->
+                                <div class="info-box">
+                                    <p><strong>Upload Profile Image:</strong></p>
+                                    <input type="file" id="fileInput" class="form-control mb-2" onchange="previewImage(event)">
+                                    <button type="button" class="btn btn-primary" onclick="uploadFile()">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart Section -->
+                    <div class="col-md-8 chart-container">
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                                <h5 class="card-title">User and Product Trends</h5>
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('lineChart').getContext('2d');
+            var lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                    datasets: [
+                        {
+                            label: 'Users',
+                            data: [10, 20, 30, 40, 50, 60], // Replace with actual user data
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                            fill: true
+                        },
+                        {
+                            label: 'Products',
+                            data: [5, 15, 25, 35, 45, 55], // Replace with actual product data
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        function previewImage(event) {
+            var image = document.getElementById('profileImage');
+            var reader = new FileReader();
+            reader.onload = function () {
+                var dataURL = reader.result;
+                image.src = dataURL;
+                image.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function uploadFile() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileUpload');
+            var file = fileInput.files[0];
+            formData.append('file', file);
+
+            $.ajax({
+                url: '@Url.Action("UploadProfileImage", "User")', // Ensure this URL matches your controller action
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('File uploaded successfully.');
+                    $('#profileImage').attr('src', '/images/' + response.fileName);
+                },
+                error: function () {
+                    alert('File uploaded successfully.');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
